@@ -9,9 +9,26 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     class BoardController
     {
         private Dictionary<string , Board> BoardList;
-        public bool addBoard(Board board) { }
-        public Board removeBoard(string id) { }
-        public Board getBoard(string id) { }
+        public BoardController()
+        {
+            BoardList = new Dictionary<string, Board>();
+        }
+        public bool addBoard(Board board) {
+            if (BoardList.ContainsKey(board.getId())) throw new Exception("A board with the same ID exists");
+            BoardList.Add(board.getId(), board);
+            return true;
+        }
+        public Board removeBoard(string id) {
+            if (!BoardList.ContainsKey(id)) throw new Exception("board does not exist");
+            Board tmp = BoardList[id];
+            BoardList.Remove(id);
+            return tmp;
+        
+        }
+        public Board getBoard(string id) {
+            if (!BoardList.ContainsKey(id)) throw new Exception("board does not exist");
+            return BoardList[id];
+        }
 
     }
 }
